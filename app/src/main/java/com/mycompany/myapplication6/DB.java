@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,13 +16,14 @@ public class DB extends AppCompatActivity implements View.OnClickListener {
 
     Button btnAdd, btnRead, btnClear;
     EditText etName, etEmail;
-
+    TextView textView;
     DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.db);
+        textView = findViewById(R.id.db_text);
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(this);
@@ -60,17 +62,22 @@ public class DB extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.btnRead:
                 Cursor cursor = database.query(DBHelper.TABLE_CONTACTS, null, null, null, null, null, null);
+                StringBuilder text = new StringBuilder();
 
                 if (cursor.moveToFirst()) {
                     int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
                     int nameIndex = cursor.getColumnIndex(DBHelper.KEY_NAME);
                     int emailIndex = cursor.getColumnIndex(DBHelper.KEY_MAIL);
                     do {
+                        text.append(String.format("ID = %s, name = %s, email = %s\n", cursor.getInt(idIndex), cursor.getString(nameIndex), cursor.getString(emailIndex)));
                         Log.d("mLog", "ID = " + cursor.getInt(idIndex) +
                                 ", name = " + cursor.getString(nameIndex) +
                                 ", email = " + cursor.getString(emailIndex));
                     } while (cursor.moveToNext());
+                    textView.setText(text);
                 } else
+                    text.append("0 rows");
+                    textView.setText(text);
                     Log.d("mLog", "0 rows");
 
                 cursor.close();
