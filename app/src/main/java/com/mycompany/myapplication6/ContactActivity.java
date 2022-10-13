@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class ContactActivity extends AppCompatActivity {
 
     private TextView textView;
-    private ArrayList<Contact> contactArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +23,6 @@ public class ContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
 
         textView = findViewById(R.id.db_cont);
-
-        contactArrayList = new ArrayList<>();
 
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,
                 null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
@@ -37,14 +34,9 @@ public class ContactActivity extends AppCompatActivity {
             Contact contact = new Contact();
             contact.setName(name);
             contact.setNumber(phoneNumber);
-            contactArrayList.add(contact);
             s.append(String.format("Имя: %s, номер: %s\n", contact.getName(), contact.getNumber()));
-            Log.d("name>>",name+"  "+phoneNumber);
         }
         phones.close();
         textView.setText(s);
-
-
     }
-
 }
