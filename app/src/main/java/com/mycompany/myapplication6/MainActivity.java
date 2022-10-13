@@ -1,7 +1,9 @@
 package com.mycompany.myapplication6;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.READ_CONTACTS},1);
     }
 
     // сохранение файла
@@ -125,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void db(View view) {
         Intent intent = new Intent(this, DB.class);
+        startActivity(intent);
+    }
+
+    public void contact(View view) {
+        Intent intent = new Intent(this, ContactActivity.class);
         startActivity(intent);
     }
 }
